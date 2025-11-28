@@ -98,7 +98,7 @@ where productid = @productid
 print 'product name ' + @productname
 if @productname='Chai'
  print 'country India'
-update dbo.etl_job_runs set runtime=GETDATE(), jobstatus='SUCCESS', errormsg = 'No error'
+update dbo.etl_job_runs_depend set runtime=GETDATE(), jobstatus='SUCCESS', errormsg = 'No error'
 where jobname = @jobname;
 end;
 GO
