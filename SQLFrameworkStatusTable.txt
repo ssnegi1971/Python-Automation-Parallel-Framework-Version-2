@@ -1,0 +1,23 @@
+USE [NorthWind]
+GO
+
+/****** Object:  Table [dbo].[ETL_Job_Runs_Depend]    Script Date: 27/11/2025 12:24:50 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[ETL_Job_Runs_Depend](
+	[SerialNo] [int] IDENTITY(1,1) NOT NULL,
+	[JobName] [varchar](200) NULL,
+	[RunTime] [datetime] NULL,
+	[JobStatus] [varchar](20) NULL,
+	[ErrorMsg] [varchar](100) NULL,
+	[DependsOn] [varchar](500) NULL
+) ON [PRIMARY]
+GO
+
+insert into dbo.etl_job_runs_depend values('C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedure.py','','Ready','','');
+insert into dbo.etl_job_runs_depend values('C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedure2.py','','Ready','','C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedure.py');
+insert into dbo.etl_job_runs_depend values('C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedure1.py','','Ready','','C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedure.py');

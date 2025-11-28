@@ -1,0 +1,147 @@
+USE [NorthWind]
+GO
+
+/****** Object:  StoredProcedure [dbo].[Proc_Products_Cursor]    Script Date: 13/11/2025 8:14:02 AM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+create procedure [dbo].[Proc_Products_Cursor] 
+	@productid int, @jobname varchar(100) AS
+begin
+declare @productname nvarchar(40);
+declare @result nvarchar(40);
+declare productcursor cursor for 
+SELECT productname
+FROM products
+where productid = @productid;
+open productcursor;
+fetch next from productcursor into @productname;
+while @@FETCH_STATUS = 0
+begin
+print 'product name ' + @productname;
+if @productname='Chai'
+ set @result='country India'
+ print @result
+fetch next from productcursor into @productname;
+end;
+CLOSE productcursor;
+DEALLOCATE productcursor;
+update dbo.etl_job_runs_depend set runtime=GETDATE(), jobstatus='SUCCESS', errormsg = 'No error'
+where jobname = @jobname;
+--insert into dbo.etl_job_runs values ('Proc_Products_Cursor',GETDATE(), 'SUCCESS', 'No Error');
+select * from dbo.grade;
+end;
+GO
+
+USE [NorthWind]
+GO
+
+/****** Object:  StoredProcedure [dbo].[Proc_Products_wrap]    Script Date: 13/11/2025 8:13:31 AM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+create procedure [dbo].[Proc_Products_wrap] 
+	@productid int, @jobname varchar(200)
+as
+BEGIN
+declare @err_msg varchar(100);
+declare @err_msg1 varchar(100), @err_no int, @err_sev int, @err_st int, @err_p varchar(100),@err_l int;
+BEGIN TRY
+-- Execute the stored procedure inside the TRY block.
+    EXECUTE [dbo].[Proc_Products_depend] @productid,@jobname;
+END TRY
+BEGIN CATCH
+
+    SELECT ERROR_NUMBER() AS ErrorNumber,
+           ERROR_SEVERITY() AS ErrorSeverity,
+           ERROR_STATE() AS ErrorState,
+           ERROR_PROCEDURE() AS ErrorProcedure,
+           ERROR_MESSAGE() AS ErrorMessage,
+           ERROR_LINE() AS ErrorLine;
+	SELECT  
+        @err_no=ERROR_NUMBER()
+        ,@err_sev=ERROR_SEVERITY()  
+        ,@err_st = ERROR_STATE()  
+        ,@err_p = ERROR_PROCEDURE()  
+        ,@err_l = ERROR_LINE()  
+        ,@err_msg = ERROR_MESSAGE();  
+--	insert into dbo.etl_job_runs ( JobName, RunTime, JobStatus, errormsg ) values (@err_p, GETDATE(), 'FAIL', @err_msg);
+update dbo.etl_job_runs set runtime=GETDATE(), jobstatus='FAIL', errormsg = @err_msg
+where jobname = @jobname;
+END CATCH;
+END;
+GO
+
+USE [NorthWind]
+GO
+
+/****** Object:  StoredProcedure [dbo].[Proc_Products]    Script Date: 13/11/2025 8:12:47 AM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+create procedure [dbo].[Proc_Products_depend] 
+	@productid int, @jobname varchar(200) AS
+begin
+declare @productname nvarchar(40);
+SELECT @productname=productname
+FROM products
+where productid = @productid
+print 'product name ' + @productname
+if @productname='Chai'
+ print 'country India'
+update dbo.etl_job_runs set runtime=GETDATE(), jobstatus='SUCCESS', errormsg = 'No error'
+where jobname = @jobname;
+end;
+GO
+
+USE [NorthWind]
+GO
+
+/****** Object:  StoredProcedure [dbo].[Proc_Jobs_Cursor]    Script Date: 28/11/2025 3:28:59 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+create procedure [dbo].[Proc_Jobs_Cursor] 
+as
+begin
+declare @jobname varchar(100);
+declare @jobstatus varchar(10);
+declare jobscursor cursor for
+select distinct jobname from (
+select a.jobname, rank() over (partition by a.jobname order by b.jobstatus asc) rnk_jobs,
+b.jobstatus
+from (
+SELECT
+    jobname, s.value as Part
+FROM
+    [dbo].[ETL_Job_Runs_Depend] a
+CROSS APPLY
+    STRING_SPLIT(dependson, ',') AS s
+    where jobstatus = 'Ready'
+    and dependson <> '') a
+inner join [dbo].[ETL_Job_Runs_Depend] b
+on a.part = b.jobname
+) a where jobstatus not in ('Ready', 'Fail') and rnk_jobs = 1;
+open jobscursor;
+fetch next from jobscursor into @jobname;
+while @@FETCH_STATUS = 0
+begin
+insert into dbo.ETL_Job_Runs_Depend_current values (@jobname);
+fetch next from jobscursor into @jobname;
+end;
+CLOSE jobscursor;
+DEALLOCATE jobscursor;
+end;
+GO
