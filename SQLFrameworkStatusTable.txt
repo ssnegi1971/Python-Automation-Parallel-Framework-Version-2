@@ -18,6 +18,11 @@ CREATE TABLE [dbo].[ETL_Job_Runs_Depend](
 ) ON [PRIMARY]
 GO
 
+-- 2 jobs dependent on one job
 insert into dbo.etl_job_runs_depend values('C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedure.py','','Ready','','');
 insert into dbo.etl_job_runs_depend values('C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedure2.py','','Ready','','C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedure.py');
 insert into dbo.etl_job_runs_depend values('C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedure1.py','','Ready','','C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedure.py');
+-- 1 job dependent on two jobs seperated by comma
+insert into dbo.etl_job_runs_depend values('C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedure.py','','Ready','','');
+insert into dbo.etl_job_runs_depend values('C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedure2.py','','Ready','','');
+insert into dbo.etl_job_runs_depend values('C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedure1.py','','Ready','','C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedure.py,C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedure2.py');
