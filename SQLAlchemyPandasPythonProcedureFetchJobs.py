@@ -29,7 +29,38 @@ if jobs_flag=='I':
         f.writelines(lines);
         print("null", file=f);
 elif jobs_flag=='D':
-    cursor.execute(f'exec [dbo].[Proc_Jobs_Cursor]');
+    sql='''
+    begin
+declare @jobname varchar(100);
+declare @jobstatus varchar(10);
+declare jobscursor cursor for
+select distinct jobname from (
+select a.jobname, rank() over (partition by a.jobname order by b.jobstatus asc) rnk_jobs,
+b.jobstatus
+from (
+SELECT
+    jobname, s.value as Part
+FROM
+    [dbo].[ETL_Job_Runs_Depend] a
+CROSS APPLY
+    STRING_SPLIT(dependson, ',') AS s
+    where jobstatus = 'Ready'
+    and dependson <> '') a
+inner join [dbo].[ETL_Job_Runs_Depend] b
+on a.part = b.jobname
+) a where jobstatus not in ('Ready', 'Fail') and rnk_jobs = 1;
+open jobscursor;
+fetch next from jobscursor into @jobname;
+while @@FETCH_STATUS = 0
+begin
+insert into dbo.ETL_Job_Runs_Depend_current values (@jobname);
+fetch next from jobscursor into @jobname;
+end;
+CLOSE jobscursor;
+DEALLOCATE jobscursor;
+end;
+'''
+    cursor.execute(sql);
     cursor.commit();
     print ("Procedure Successful");
     query = "SELECT top "+ noofjobs + " jobname from dbo.ETL_Job_Runs_Depend_current;"
