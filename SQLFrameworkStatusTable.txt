@@ -14,7 +14,8 @@ CREATE TABLE [dbo].[ETL_Job_Runs_Depend](
 	[RunTime] [datetime] NULL,
 	[JobStatus] [varchar](20) NULL,
 	[ErrorMsg] [varchar](100) NULL,
-	[DependsOn] [varchar](500) NULL
+	[DependsOn] [varchar](500) NULL,
+	[RunFlag] [varchar](10)
 ) ON [PRIMARY]
 GO
 
@@ -27,17 +28,8 @@ insert into dbo.etl_job_runs_depend values('C:/Users/Admin/Desktop/work/Python/P
 insert into dbo.etl_job_runs_depend values('C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedure2.py','','Ready','','');
 insert into dbo.etl_job_runs_depend values('C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedure1.py','','Ready','','C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedure.py,C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedure2.py');
 
-USE [NorthWind]
-GO
-
-/****** Object:  Table [dbo].[ETL_Job_Runs_Depend_current]    Script Date: 28/11/2025 6:39:44 PM ******/
-SET ANSI_NULLS ON
-GO
-
-SET QUOTED_IDENTIFIER ON
-GO
-
 CREATE TABLE [dbo].[ETL_Job_Runs_Depend_current](
 	[jobname] [varchar](100) NULL
 ) ON [PRIMARY]
+
 GO
