@@ -20,7 +20,7 @@ for index, row in df.iterrows():
         jobs_flag='I';
 print (jobs_flag);
 if jobs_flag=='I':
-    query = "SELECT top "+ noofjobs + " jobname from dbo.etl_job_runs_depend where dependson in ('');"
+    query = "SELECT top "+ noofjobs + " jobname from dbo.etl_job_runs_depend where dependson in ('') and jobstatus <> 'SUCCESS';"
     df = pd.read_sql(query, engine);
     lines = [];
     for index, row in df.iterrows():
@@ -44,7 +44,7 @@ FROM
     [dbo].[ETL_Job_Runs_Depend] a
 CROSS APPLY
     STRING_SPLIT(dependson, ',') AS s
-    where jobstatus = 'Ready'
+    where jobstatus <> 'SUCCESS'
     and dependson <> '') a
 inner join [dbo].[ETL_Job_Runs_Depend] b
 on a.part = b.jobname
@@ -53,7 +53,7 @@ open jobscursor;
 fetch next from jobscursor into @jobname;
 while @@FETCH_STATUS = 0
 begin
-insert into dbo.ETL_Job_Runs_Depend_current values (@jobname);
+update dbo.ETL_Job_Runs_Depend set RunFlag = 'Y' where jobname = @jobname;
 fetch next from jobscursor into @jobname;
 end;
 CLOSE jobscursor;
@@ -63,7 +63,7 @@ end;
     cursor.execute(sql);
     cursor.commit();
     print ("Procedure Successful");
-    query = "SELECT top "+ noofjobs + " jobname from dbo.ETL_Job_Runs_Depend_current;"
+    query = "SELECT top "+ noofjobs + " jobname from dbo.ETL_Job_Runs_Depend where RunFlag = 'Y';"
     df = pd.read_sql(query, engine);
     lines = [];
     for index, row in df.iterrows():    
@@ -71,7 +71,7 @@ end;
     with open('C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/pythonJobs.txt', 'w') as f:
         f.writelines(lines);
         print("null", file=f);
-    query = "delete from dbo.ETL_Job_Runs_Depend_current;";
+    query = "update dbo.ETL_Job_Runs_Depend set RunFlag = '';";
     cursor.execute(query);
     cursor.commit();
 cursor.close();
