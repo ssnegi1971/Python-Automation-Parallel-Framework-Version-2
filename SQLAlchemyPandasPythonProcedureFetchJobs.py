@@ -18,7 +18,6 @@ for index, row in df.iterrows():
         jobs_flag='D';
     else:
         jobs_flag='I';
-print (jobs_flag);
 if jobs_flag=='I':
     query = "SELECT top "+ noofjobs + " jobname from dbo.etl_job_runs_depend where dependson in ('') and jobstatus <> 'SUCCESS';"
     df = pd.read_sql(query, engine);
@@ -59,7 +58,6 @@ end;
 '''
     cursor.execute(sql);
     cursor.commit();
-    print ("Procedure Successful");
     query = "select distinct jobname from (SELECT top "+ noofjobs + " jobname from dbo.ETL_Job_Runs_Depend where RunFlag = 'Y') a;"
     df = pd.read_sql(query, engine);
     lines = [];
