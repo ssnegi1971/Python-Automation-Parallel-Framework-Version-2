@@ -22,6 +22,11 @@ for index, row in df.iterrows():
         with open('C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/keepprocessing.txt', 'w') as f:
             print("STOP", file=f);
 cursor.commit();
+query = "select count(*) RunJobs from dbo.etl_job_runs_depend where jobstatus = 'Running';"
+df = pd.read_sql(query, engine);
+for index, row in df.iterrows():
+    with open('C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/nextjobs.txt', 'w') as f:
+        print(int(noofjobs) - int(row.RunJobs), file=f);
 cursor.close();
 #print("In check jobs");
 #query = "SELECT * from dbo.grade;"

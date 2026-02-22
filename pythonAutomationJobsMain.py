@@ -1,6 +1,7 @@
 import sys
 import threading
 import subprocess
+import time
 #import os
 
 #This is the main file for Python Automation Parallel Framework.
@@ -15,13 +16,15 @@ def run_script(script_name, param1, param2):
 noparalleljobs = "5";
 
 if __name__ == "__main__":
-    script_thread1 = threading.Thread(target=run_script, args=("C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedureCheckJobs.py","","",));
+    script_thread1 = threading.Thread(target=run_script, args=("C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedureCheckJobs.py",noparalleljobs,"",));
     script_thread1.start();
     script_thread1.join();
     with open('C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/keepprocessing.txt', "r") as file:
         loopjobs=file.read().rstrip('\n');
     while loopjobs!='STOP':
-        script_thread1 = threading.Thread(target=run_script, args=("C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedureFetchJobs.py",noparalleljobs,"",));
+        with open('C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/nextjobs.txt', "r") as file:
+            noparalleljob=file.read().rstrip('\n');
+        script_thread1 = threading.Thread(target=run_script, args=("C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedureFetchJobs.py",noparalleljob,"",));
         script_thread1.start();
         script_thread1.join();    
         script_thread1 = threading.Thread(target=run_script, args=("C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/pythonAutomationJobs.py","C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/pythonJobs.txt","",));
@@ -49,7 +52,8 @@ if __name__ == "__main__":
                 script_thread1.join();
                 print ("email sent");
                 sys.exit(1);
-        script_thread1 = threading.Thread(target=run_script, args=("C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedureCheckJobs.py","","",));
+        time.sleep(10);
+        script_thread1 = threading.Thread(target=run_script, args=("C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedureCheckJobs.py",noparalleljobs,"",));
         script_thread1.start();
         script_thread1.join();
         with open('C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/keepprocessing.txt', "r") as file:

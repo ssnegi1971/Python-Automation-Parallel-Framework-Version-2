@@ -59,6 +59,7 @@ for index, item in enumerate(lines):
             script_thread5 = threading.Thread(target=run_script, args=(item,item));
             script_thread5.start();
         elif item == "null":
+            '''
             if index==1:
                  script_thread1.join();
             elif index == 2:
@@ -78,5 +79,6 @@ for index, item in enumerate(lines):
                 script_thread2.join();
                 script_thread3.join();
                 script_thread4.join();
-                script_thread5.join();                
+                script_thread5.join();
+'''                
             print("All scripts have finished executing.");
