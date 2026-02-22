@@ -34,18 +34,21 @@ elif jobs_flag=='D':
 declare @jobname varchar(100);
 declare @jobstatus varchar(10);
 declare jobscursor cursor for
-select jobname from (
-select jobname, count(jobstatus) over (partition by jobname) rnk_jb, jobstatus
+select distinct jobname from (
+select a.jobname, rank() over (partition by a.jobname order by b.jobstatus asc) rnk_jobs,
+b.jobstatus
 from (
-select distinct a.jobname, jobstatus
-from (
-select jobname, dependson from [dbo].[ETL_Job_Runs_Depend] where dependson<>'' and jobstatus <> 'SUCCESS'
-) a
+SELECT
+    jobname, s.value as Part
+FROM
+    [dbo].[ETL_Job_Runs_Depend] a
+CROSS APPLY
+    STRING_SPLIT(dependson, ',') AS s
+    where jobstatus <> 'SUCCESS'
+    and dependson <> '') a
 inner join [dbo].[ETL_Job_Runs_Depend] b
-on a.dependson = b.jobname
-) b
-) c
-where rnk_jb = 1 and jobstatus = 'SUCCESS';
+on a.part = b.jobname
+) a where jobstatus not in ('Ready', 'Fail') and rnk_jobs = 1;
 open jobscursor;
 fetch next from jobscursor into @jobname;
 while @@FETCH_STATUS = 0
@@ -60,7 +63,7 @@ end;
     cursor.execute(sql);
     cursor.commit();
     print ("Procedure Successful");
-    query = "select distinct jobname from (SELECT top "+ noofjobs + " jobname from dbo.ETL_Job_Runs_Depend where RunFlag = 'Y') a;"
+    query = "SELECT top "+ noofjobs + " jobname from dbo.ETL_Job_Runs_Depend where RunFlag = 'Y';"
     df = pd.read_sql(query, engine);
     lines = [];
     for index, row in df.iterrows():    
