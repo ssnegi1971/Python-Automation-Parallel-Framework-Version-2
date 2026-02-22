@@ -11,6 +11,8 @@ GO
 create procedure [dbo].[Proc_Products_Cursor] 
 	@productid int, @jobname varchar(100) AS
 begin
+update dbo.etl_job_runs_depend set runtime=GETDATE(), jobstatus='Running', errormsg = 'No error'
+where jobname = @jobname;
 declare @productname nvarchar(40);
 declare @result nvarchar(40);
 declare productcursor cursor for 
@@ -91,6 +93,8 @@ GO
 create procedure [dbo].[Proc_Products_depend] 
 	@productid int, @jobname varchar(200) AS
 begin
+update dbo.etl_job_runs_depend set runtime=GETDATE(), jobstatus='Running', errormsg = 'No error'
+where jobname = @jobname;
 declare @productname nvarchar(40);
 SELECT @productname=productname
 FROM products
@@ -100,5 +104,48 @@ if @productname='Chai'
  print 'country India'
 update dbo.etl_job_runs_depend set runtime=GETDATE(), jobstatus='SUCCESS', errormsg = 'No error'
 where jobname = @jobname;
+end;
+GO
+
+USE [NorthWind]
+GO
+
+/****** Object:  StoredProcedure [dbo].[Proc_Jobs_Cursor]    Script Date: 28/11/2025 3:28:59 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+create procedure [dbo].[Proc_Jobs_Cursor] 
+as
+begin
+declare @jobname varchar(100);
+declare @jobstatus varchar(10);
+declare jobscursor cursor for
+select distinct jobname from (
+select a.jobname, rank() over (partition by a.jobname order by b.jobstatus asc) rnk_jobs,
+b.jobstatus
+from (
+SELECT
+    jobname, s.value as Part
+FROM
+    [dbo].[ETL_Job_Runs_Depend] a
+CROSS APPLY
+    STRING_SPLIT(dependson, ',') AS s
+    where jobstatus = 'Ready'
+    and dependson <> '') a
+inner join [dbo].[ETL_Job_Runs_Depend] b
+on a.part = b.jobname
+) a where jobstatus not in ('Ready', 'Fail') and rnk_jobs = 1;
+open jobscursor;
+fetch next from jobscursor into @jobname;
+while @@FETCH_STATUS = 0
+begin
+insert into dbo.ETL_Job_Runs_Depend_current values (@jobname);
+fetch next from jobscursor into @jobname;
+end;
+CLOSE jobscursor;
+DEALLOCATE jobscursor;
 end;
 GO
