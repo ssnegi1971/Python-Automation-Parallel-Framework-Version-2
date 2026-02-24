@@ -10,7 +10,7 @@ import subprocess
 file_path=sys.argv[1];
 
 def run_script(script_name, param):
-    subprocess.run(["python", script_name, param]);
+    subprocess.run(["pythonw", script_name, param]);
 lines = [];
 with open(file_path, "r") as file:
     for line in file:
