@@ -14,17 +14,45 @@ CREATE TABLE [dbo].[ETL_Job_Runs_Depend](
 	[RunTime] [datetime] NULL,
 	[JobStatus] [varchar](20) NULL,
 	[ErrorMsg] [varchar](100) NULL,
-	[DependsOn] [varchar](500) NULL,
-	[RunFlag] [varchar](10)
+	[DependsOn] [varchar](500) NULL
 ) ON [PRIMARY]
 GO
 
 -- 2 jobs dependent on one job
-insert into dbo.etl_job_runs_depend values('C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedure.py','','Ready','','','');
-insert into dbo.etl_job_runs_depend values('C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedure2.py','','Ready','','C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedure.py','');
-insert into dbo.etl_job_runs_depend values('C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedure1.py','','Ready','','C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedure.py','');
--- 1 job dependent on two jobs seperated by comma
-insert into dbo.etl_job_runs_depend values('C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedure.py','','Ready','','','');
-insert into dbo.etl_job_runs_depend values('C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedure2.py','','Ready','','','');
-insert into dbo.etl_job_runs_depend values('C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedure1.py','','Ready','','C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedure.py,C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedure2.py','');
+insert into dbo.etl_job_runs_depend values('C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedure.py','','Ready','','');
+insert into dbo.etl_job_runs_depend values('C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedure2.py','','Ready','','C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedure.py');
+insert into dbo.etl_job_runs_depend values('C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedure1.py','','Ready','','C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedure.py');
 
+-- 1 job dependent on two jobs
+insert into dbo.etl_job_runs_depend values('C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedure.py','','Ready','','');
+insert into dbo.etl_job_runs_depend values('C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedure2.py','','Ready','','');
+insert into dbo.etl_job_runs_depend values('C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedure1.py','','Ready','','C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedure.py');
+insert into dbo.etl_job_runs_depend values('C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedure1.py','','Ready','','C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedure2.py');
+
+-- 2 jobs dependent on one job (background no console)
+insert into dbo.etl_job_runs_depend values('C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedure.pyw','','Ready','','');
+insert into dbo.etl_job_runs_depend values('C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedure2.pyw','','Ready','','C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedurew.pyw');
+insert into dbo.etl_job_runs_depend values('C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedure1.pyw','','Ready','','C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedurew.pyw');
+
+-- 1 job dependent on two jobs (background no console)
+insert into dbo.etl_job_runs_depend values('C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedure.pyw','','Ready','','','');
+insert into dbo.etl_job_runs_depend values('C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedure2.pyw','','Ready','','','');
+insert into dbo.etl_job_runs_depend values('C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedure1.pyw','','Ready','','C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedure.pyw','');
+insert into dbo.etl_job_runs_depend values('C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedure1.pyw','','Ready','','C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedure2.pyw','');
+
+
+
+USE [NorthWind]
+GO
+
+/****** Object:  Table [dbo].[ETL_Job_Runs_Depend_current]    Script Date: 28/11/2025 6:39:44 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[ETL_Job_Runs_Depend_current](
+	[jobname] [varchar](100) NULL
+) ON [PRIMARY]
+GO
