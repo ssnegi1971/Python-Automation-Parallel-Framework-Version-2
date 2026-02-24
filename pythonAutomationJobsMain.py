@@ -24,8 +24,8 @@ if __name__ == "__main__":
         loopjobs=file.read().rstrip('\n');
     while loopjobs!='STOP':
         with open('C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/nextjobs.txt', "r") as file:
-            noparalleljob=file.read().rstrip('\n');
-        script_thread1 = threading.Thread(target=run_script, args=("C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedureFetchJobs.py",noparalleljob,"",));
+            noparallel=file.read().rstrip('\n');
+        script_thread1 = threading.Thread(target=run_script, args=("C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedureFetchJobs.py",noparallel,"",));
         script_thread1.start();
         script_thread1.join();    
         script_thread1 = threading.Thread(target=run_script, args=("C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/pythonAutomationJobs.py","C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/pythonJobs.txt","",));
