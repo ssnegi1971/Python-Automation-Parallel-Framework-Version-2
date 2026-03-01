@@ -14,7 +14,7 @@ def run_script(script_name, param1, param2):
 #the below setting can be changed for more parallel jobs.
 #Also the pythonAutomationJobs.py will have to be changed for more parallelism.
 noparalleljobs = "5";
-time_interval = 10;
+time_interval = 15;
 
 if __name__ == "__main__":
     script_thread1 = threading.Thread(target=run_script, args=("C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedureCheckJobs.py",noparalleljobs,"",));
@@ -31,6 +31,7 @@ if __name__ == "__main__":
         script_thread1 = threading.Thread(target=run_script, args=("C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/pythonAutomationJobs.py","C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/pythonJobs.txt","",));
         script_thread1.start();
         script_thread1.join();
+        time.sleep(time_interval);
 #    os.remove("C:/Users/ssneg/OneDrive/Desktop/work/Python/PythonAutomation/pythonJobs.txt");
         script_thread1 = threading.Thread(target=run_script, args=("C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedureCheckStatus.py","","",));
         script_thread1.start();
@@ -53,7 +54,6 @@ if __name__ == "__main__":
                 script_thread1.join();
                 print ("email sent");
                 sys.exit(1);
-        time.sleep(time_interval);
         script_thread1 = threading.Thread(target=run_script, args=("C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedureCheckJobs.py",noparalleljobs,"",));
         script_thread1.start();
         script_thread1.join();
