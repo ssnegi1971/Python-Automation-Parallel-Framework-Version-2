@@ -31,19 +31,6 @@ insert into dbo.etl_job_runs_depend values('C:/Users/Admin/Desktop/work/Python/P
 
 pip install pythonw
 
--- 2 jobs dependent on one job (background no console)
-insert into dbo.etl_job_runs_depend values('C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedure.pyw','','Ready','','');
-insert into dbo.etl_job_runs_depend values('C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedure2.pyw','','Ready','','C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedurew.pyw');
-insert into dbo.etl_job_runs_depend values('C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedure1.pyw','','Ready','','C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedurew.pyw');
-
--- 1 job dependent on two jobs (background no console)
-insert into dbo.etl_job_runs_depend values('C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedure.pyw','','Ready','','','');
-insert into dbo.etl_job_runs_depend values('C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedure2.pyw','','Ready','','','');
-insert into dbo.etl_job_runs_depend values('C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedure1.pyw','','Ready','','C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedure.pyw','');
-insert into dbo.etl_job_runs_depend values('C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedure1.pyw','','Ready','','C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedure2.pyw','');
-
-
-
 USE [NorthWind]
 GO
 
@@ -57,4 +44,5 @@ GO
 CREATE TABLE [dbo].[ETL_Job_Runs_Depend_current](
 	[jobname] [varchar](100) NULL
 ) ON [PRIMARY]
+
 GO
