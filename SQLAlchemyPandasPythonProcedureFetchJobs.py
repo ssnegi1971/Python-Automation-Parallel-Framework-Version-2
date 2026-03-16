@@ -9,7 +9,7 @@ noofjobs=sys.argv[1];
 server = "localhost\\SQLEXPRESS"
 database = "NorthWind"
 engine = create_engine('mssql+pyodbc://' + server + '/' + database + '?trusted_connection=yes&driver=ODBC+Driver+17+for+SQL+Server');
-query = "SELECT count(*) cnt_jobs from dbo.etl_job_runs_depend where dependson in ('') and jobstatus in ('Ready','Fail');"
+query = "SELECT count(*) cnt_jobs from dbo.etl_job_runs_depend where dependson in ('') and jobstatus in ('Ready','Fail','Running');"
 connection = engine.raw_connection()
 cursor = connection.cursor()
 df = pd.read_sql(query, engine);
@@ -19,7 +19,7 @@ for index, row in df.iterrows():
     else:
         jobs_flag='I';
 if jobs_flag=='I':
-    query = "SELECT top "+ noofjobs + " jobname from dbo.etl_job_runs_depend where dependson in ('') and jobstatus <> 'SUCCESS';"
+    query = "SELECT top "+ noofjobs + " jobname from dbo.etl_job_runs_depend where dependson in ('') and jobstatus in ('Ready','Fail');"
     df = pd.read_sql(query, engine);
     lines = [];
     for index, row in df.iterrows():
@@ -38,7 +38,7 @@ select jobname, count(jobstatus) over (partition by jobname) rnk_jb, jobstatus
 from (
 select distinct a.jobname, jobstatus
 from (
-select jobname, dependson from [dbo].[ETL_Job_Runs_Depend] where dependson<>'' and jobstatus <> 'SUCCESS'
+select jobname, dependson from [dbo].[ETL_Job_Runs_Depend] where dependson<>'' and jobstatus in ('Ready','Fail')
 ) a
 inner join [dbo].[ETL_Job_Runs_Depend] b
 on a.dependson = b.jobname
@@ -58,7 +58,7 @@ end;
 '''
     cursor.execute(sql);
     cursor.commit();
-    query = "select distinct jobname from (SELECT top "+ noofjobs + " jobname from dbo.ETL_Job_Runs_Depend where RunFlag = 'Y') a;"
+    query = "select top "+ noofjobs + " jobname from (SELECT distinct jobname from dbo.ETL_Job_Runs_Depend where RunFlag = 'Y') a;"
     df = pd.read_sql(query, engine);
     lines = [];
     for index, row in df.iterrows():    
