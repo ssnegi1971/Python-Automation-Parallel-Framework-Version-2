@@ -33,7 +33,7 @@ elif jobs_flag=='D':
 declare @jobname varchar(100);
 declare @jobstatus varchar(10);
 declare jobscursor cursor for
-select jobname from (
+select distinct jobname from (
 select jobname, count(jobstatus) over (partition by jobname) rnk_jb, jobstatus
 from (
 select distinct a.jobname, jobstatus
