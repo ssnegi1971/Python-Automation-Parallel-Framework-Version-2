@@ -31,6 +31,8 @@ insert into dbo.etl_job_runs_depend values('C:/Users/Admin/Desktop/work/Python/P
 
 pip install pythonw
 
+pip install psutil
+
 USE [NorthWind]
 GO
 
