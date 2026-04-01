@@ -29,6 +29,8 @@ insert into dbo.etl_job_runs_depend values('C:/Users/Admin/Desktop/work/Python/P
 insert into dbo.etl_job_runs_depend values('C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedure1.py','','Ready','','C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedure.py');
 insert into dbo.etl_job_runs_depend values('C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedure1.py','','Ready','','C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedure2.py');
 
+There are three statuses in the framework repository - Ready, FAIL, SUCCESS
+
 pip install pythonw
 
 pip install psutil
