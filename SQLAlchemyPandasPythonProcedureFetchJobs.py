@@ -26,7 +26,7 @@ if jobs_flag=='I':
         lines.append(row.jobname+"\n");
     with open('C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/pythonJobs.txt', 'w') as f:
         f.writelines(lines);
-        print("null", file=f);
+#        print("null", file=f);
 elif jobs_flag=='D':
     sql='''
     begin
@@ -65,7 +65,7 @@ end;
         lines.append(row.jobname+"\n");
     with open('C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/pythonJobs.txt', 'w') as f:
         f.writelines(lines);
-        print("null", file=f);
+#        print("null", file=f);
     query = "update dbo.ETL_Job_Runs_Depend set RunFlag = '';";
     cursor.execute(query);
     cursor.commit();

@@ -19,20 +19,20 @@ print(lines);
 for index, item in enumerate(lines):
     print(f"Index: {index}, Item: {item}")
     if __name__ == "__main__":
-        if index == 0 and item != 'null':
+        if index == 0:
             script_thread1 = threading.Thread(target=run_script, args=(item,item));
             script_thread1.start();
-        elif index == 1 and item != 'null':
+        elif index == 1:
             script_thread2 = threading.Thread(target=run_script, args=(item,item));
             script_thread2.start();
-        elif index == 2 and item != 'null':
+        elif index == 2:
             script_thread3 = threading.Thread(target=run_script, args=(item,item));
             script_thread3.start();
-        elif index == 3 and item != 'null':
+        elif index == 3:
             script_thread4 = threading.Thread(target=run_script, args=(item,item));
             script_thread4.start();
-        elif index == 4 and item != 'null':
+        elif index == 4:
             script_thread5 = threading.Thread(target=run_script, args=(item,item));
             script_thread5.start();
-        elif item == "null":
-            print("All scripts have finished executing.");
+#        elif item == "null":
+#            print("All scripts have finished executing.");
