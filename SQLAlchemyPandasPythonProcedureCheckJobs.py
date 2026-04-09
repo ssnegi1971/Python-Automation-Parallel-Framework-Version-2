@@ -27,8 +27,5 @@ df = pd.read_sql(query, engine);
 for index, row in df.iterrows():
     with open('C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/nextjobs.txt', 'w') as f:
         print(int(noofjobs) - int(row.RunJobs), file=f);
+cursor.commit();
 cursor.close();
-#print("In check jobs");
-#query = "SELECT * from dbo.grade;"
-#df = pd.read_sql(query, engine);
-#print (df);
