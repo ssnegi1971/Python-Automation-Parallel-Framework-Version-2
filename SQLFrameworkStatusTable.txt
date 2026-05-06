@@ -19,19 +19,19 @@ CREATE TABLE [dbo].[ETL_Job_Runs_Depend](
 GO
 
 -- 2 jobs dependent on one job
-insert into dbo.etl_job_runs_depend values('C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedure.py','','Ready','','');
-insert into dbo.etl_job_runs_depend values('C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedure2.py','','Ready','','C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedure.py');
-insert into dbo.etl_job_runs_depend values('C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedure1.py','','Ready','','C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedure.py');
+insert into dbo.etl_job_runs_depend values('C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedure.py','','READY','','');
+insert into dbo.etl_job_runs_depend values('C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedure2.py','','READY','','C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedure.py');
+insert into dbo.etl_job_runs_depend values('C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedure1.py','','READY','','C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedure.py');
 
 -- 1 job dependent on two jobs
-insert into dbo.etl_job_runs_depend values('C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedure.py','','Ready','','');
-insert into dbo.etl_job_runs_depend values('C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedure2.py','','Ready','','');
-insert into dbo.etl_job_runs_depend values('C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedure1.py','','Ready','','C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedure.py');
-insert into dbo.etl_job_runs_depend values('C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedure1.py','','Ready','','C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedure2.py');
+insert into dbo.etl_job_runs_depend values('C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedure.py','','READY','','','');
+insert into dbo.etl_job_runs_depend values('C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedure2.py','','READY','','','');
+insert into dbo.etl_job_runs_depend values('C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedure1.py','','READY','','C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedure.py','');
+insert into dbo.etl_job_runs_depend values('C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedure1.py','','READY','','C:/Users/Admin/Desktop/work/Python/PythonAutomation/dependency/SQLAlchemyPandasPythonProcedure2.py','');
 
-There are three statuses in the framework repository - Ready, FAIL, SUCCESS
+There are three statuses in the framework repository - READY, FAIL, SUCCESS
 
-pip install pythonw
+pip install python
 
 pip install psutil
 
@@ -48,5 +48,4 @@ GO
 CREATE TABLE [dbo].[ETL_Job_Runs_Depend_current](
 	[jobname] [varchar](100) NULL
 ) ON [PRIMARY]
-
 GO
