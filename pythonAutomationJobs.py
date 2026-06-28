@@ -4,7 +4,6 @@ import subprocess
 
 #This is a Python Automation Parallel Framework. It runs python scripts in parallel.
 #It is programmed for maximum 5 python jobs in pythonJobs.txt seperated by a comma.
-#The sixth or last element is null inserted for collecting the previous subprocesses.
 #It can be expanded to more parallel jobs depending on requirement.
 
 file_path=sys.argv[1];
@@ -34,5 +33,3 @@ for index, item in enumerate(lines):
         elif index == 4:
             script_thread5 = threading.Thread(target=run_script, args=(item,item));
             script_thread5.start();
-#        elif item == "null":
-#            print("All scripts have finished executing.");
